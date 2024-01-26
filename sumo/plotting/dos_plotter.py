@@ -210,14 +210,14 @@ class SDOSPlotter:
 
         for el, el_pdos in pdos.items():
             el_lines = []
-            for orb in sort_orbitals(el_pdos):
+            for orb, label in sort_orbitals(el_pdos):
                 dmax = max(max(d[mask]) for d in el_pdos[orb].densities.values())
                 ymax = dmax if dmax > ymax else ymax
-                label = None if dmax < cutoff else f"{el} ({orb})"
+                orb_label = None if dmax < cutoff else f"{el} ({label})"
                 colour, cache = get_cached_colour(el, orb, colours, cache=cache)
                 el_lines.append(
                     {
-                        "label": label,
+                        "label": orb_label,
                         "alpha": 0.25,
                         "colour": colour,
                         "dens": el_pdos[orb].densities,
