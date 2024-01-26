@@ -321,7 +321,7 @@ def write_files(dos, pdos, prefix=None, directory=None, zero_to_efermi=True):
     for el, el_pdos in pdos.items():
         header = ["energy"]
         pdos_data = [eners]
-        for orb in sort_orbitals(el_pdos):
+        for orb, orb_label in sort_orbitals(el_pdos):
             for spin, sign, label in sdata:
                 header.append(f"{orb}{label}")
                 pdos_data.append(el_pdos[orb].densities[spin] * sign)
@@ -353,32 +353,32 @@ def sort_orbitals(element_pdos):
         list: The sorted orbitals.
     """
     sorted_orbitals = [
-        "s",
-        "p",
-        "py",
-        "pz",
-        "px",
-        "d",
-        "dxy",
-        "dyz",
-        "dz2",
-        "dxz",
-        "dx2",
-        "f",
-        "f_3",
-        "f_2",
-        "f_1",
-        "f0",
-        "f1",
-        "f2",
-        "f3",
+        ("s", "$s$"),
+        ("p", "$p$"),
+        ("py", "$p_y$"),
+        ("pz", "$p_z$"),
+        ("px", "$p_x$"),
+        ("d", "$d$"),
+        ("dxy", "$d_{xy}$"),
+        ("dyz", "$d_{yz}$"),
+        ("dz2", "$d_{z^2}$"),
+        ("dxz", "$d_{xz}$"),
+        ("dx2", "$d_{x^2-y^2}$"),
+        ("f", "$f$"), 
+        ("f_3", "$f_{-3}$"), 
+        ("f_2", "$f_{-2}$"), 
+        ("f_1", "$f_{-1}$"), 
+        ("f0", "$f_{0}$"), 
+        ("f1", "$f_{+1}$"), 
+        ("f2", "$f_{+2}$"), 
+        ("f3", "$f_{+3}$"),
     ]
     unsorted_keys = element_pdos.keys()
 
     sorted_keys = []
-    for key in sorted_orbitals:
+    for key, label in sorted_orbitals:
         if key in unsorted_keys:
-            sorted_keys.append(key)
+            sorted_keys.append((key, label))
 
     return sorted_keys
 
